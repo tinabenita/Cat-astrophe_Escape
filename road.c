@@ -2,20 +2,20 @@
 
 // Global variables
 float roadPosition = 0.0f;   // Current position of dashes on the road
-float dashSpeed = 0.0f;     // Speed of the moving dashes
+float dashSpeed = 0.01f;     // Speed of the moving dashes
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     
-// Set the color for the road
+    // Set the color for the road
     glColor3f(0.4f, 0.4f, 0.4f);
-// Draw the road as a rectangle
+    // Draw the road as a rectangle
     glBegin(GL_QUADS);
     glVertex2f(-1.0f, -0.25f);  // Adjusted y-coordinate to -1.0f
-    glVertex2f(1.0f,-0.25f);      // Adjusted y-coordinate to 0
-    glVertex2f(1.0f,-1.0f);  // Adjusted y-coordinate to -1.0f
-    glVertex2f(-1.0f,-1.0f);      // Adjusted y-coordinate to 0
+    glVertex2f(1.0f, -0.25f);      // Adjusted y-coordinate to 0
+    glVertex2f(1.0f, -1.0f);  // Adjusted y-coordinate to -1.0f
+    glVertex2f(-1.0f, -1.0f);      // Adjusted y-coordinate to 0
     glEnd();
 
     glFlush();
@@ -25,20 +25,16 @@ void display() {
     glColor3f(1.0f, 1.0f, 1.0f);
 
     // Draw the moving dashes on the road
-    
-    
-	
     glBegin(GL_QUADS);
     for (float x = -0.8f + roadPosition; x < 0.8f; x += 0.2f) {
-        glVertex2f(x, -0.45f);
-        glVertex2f(x, -0.47f);
-        glVertex2f(x + 0.1f, -0.47f);
-        glVertex2f(x + 0.1f, -0.45f);
+        glVertex2f(x, -0.62f);       // Adjusted y-coordinate to -0.75f
+        glVertex2f(x, -0.64f);       // Adjusted y-coordinate to -0.77f
+        glVertex2f(x + 0.1f, -0.64f); // Adjusted y-coordinate to -0.77f
+        glVertex2f(x + 0.1f, -0.62f); // Adjusted y-coordinate to -0.75f
     }
     glEnd();
     
-
-    
+    glutSwapBuffers();
 }
 
 void update(int value) {
@@ -58,13 +54,13 @@ void update(int value) {
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB); // Double buffering for smoother animation
     glutInitWindowSize(1200, 750);
     glutCreateWindow("Cat-astrophe escape");
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black background color
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, 1500.0, -1.0, 1.0, -1.0, 1.0);  // Adjusted the left and right parameters of glOrtho
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);  // Adjusted the left and right parameters of glOrtho
 
     glutDisplayFunc(display);
     glutTimerFunc(0, update, 0);
