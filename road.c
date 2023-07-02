@@ -173,22 +173,23 @@ float exitxL = -0.5;  // Example value for exitxL
     float ts = 0.01;
     float ty = by - bh * 0.8;
 
+    //Tail
     glColor3f(0.6, 0.6, 0.6);
     glBegin(GL_QUAD_STRIP);
-    glVertex2f(bx, ty);
-    glVertex2f(bx, ty + th);
+    glVertex2f(bx, ty+ catJumpHeight);
+    glVertex2f(bx, ty+ catJumpHeight + th);
     ty += ts * 2;
-    glVertex2f(bx - ts, ty);
-    glVertex2f(bx - ts, ty + th);
+    glVertex2f(bx - ts, ty+ catJumpHeight);
+    glVertex2f(bx - ts, ty + th+ catJumpHeight);
     ty += ts * 1;
-    glVertex2f(bx - ts * 2, ty);
-    glVertex2f(bx - ts * 2, ty + th);
+    glVertex2f(bx - ts * 2, ty+ catJumpHeight);
+    glVertex2f(bx - ts * 2, ty + th+ catJumpHeight);
     ty += ts * 2;
-    glVertex2f(bx - ts * 3, ty);
-    glVertex2f(bx - ts * 3, ty + th);
+    glVertex2f(bx - ts * 3, ty+ catJumpHeight);
+    glVertex2f(bx - ts * 3, ty + th+ catJumpHeight);
     ty += ts * 3;
-    glVertex2f(bx - ts * 4, ty);
-    glVertex2f(bx - ts * 4, ty + th);
+    glVertex2f(bx - ts * 4, ty+ catJumpHeight);
+    glVertex2f(bx - ts * 4, ty + th+ catJumpHeight);
     glEnd();
     
    // Dark grey color for the entire cat shape
@@ -242,7 +243,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(0.6, 0.6, 0.6);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy+ catJumpHeight + fr * sin(i));
     }
     glEnd();
 
@@ -250,7 +251,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(0.6, 0.6, 0.6);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy + fr * sin(i)+ catJumpHeight);
     }
     glEnd();
 
@@ -258,7 +259,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(0.6, 0.6, 0.6);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy + fr * sin(i)+ catJumpHeight);
     }
     glEnd();
 
@@ -266,7 +267,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(0.6, 0.6, 0.6);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy + fr * sin(i)+ catJumpHeight);
     }
     glEnd();
     
@@ -278,7 +279,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(0.6, 0.6, 0.6);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy + fr * sin(i)+ catJumpHeight);
     }
     glEnd();
 
@@ -287,14 +288,14 @@ float exitxL = -0.5;  // Example value for exitxL
     glBegin(GL_TRIANGLES);
 
     // Right ear
-    glVertex2f(fx, fy);
-    glVertex2f(fx + ew, fy);
-    glVertex2f(fx + ew, fy + ew * 2);
+    glVertex2f(fx, fy+ catJumpHeight);
+    glVertex2f(fx + ew, fy+ catJumpHeight);
+    glVertex2f(fx + ew, fy + catJumpHeight+ ew * 2);
 
     // Left ear
-    glVertex2f(fx, fy);
-    glVertex2f(fx - ew, fy);
-    glVertex2f(fx - ew, fy + ew * 2);
+    glVertex2f(fx, fy+ catJumpHeight);
+    glVertex2f(fx - ew, fy+ catJumpHeight);
+    glVertex2f(fx - ew, fy + catJumpHeight+ ew * 2);
     glEnd();
 
     // Left eye
@@ -304,7 +305,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(0, 0, 0);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx + fr * cos(i), fy + catJumpHeight+ fr * sin(i));
     }
     glEnd();
 
@@ -314,7 +315,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(1, 1, 1);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx - fr * 2 + fr * cos(i), fy + fr * 2 + fr * sin(i));
+        glVertex2f(fx - fr * 2 + fr * cos(i), fy + catJumpHeight+ fr * 2 + fr * sin(i));
     }
     glEnd();
 
@@ -325,7 +326,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(0, 0, 0);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx - fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx - fr * cos(i), fy + catJumpHeight+ fr * sin(i));
     }
     glEnd();
 
@@ -334,7 +335,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(1, 1, 1);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx - fr * 2 + fr * cos(i), fy + fr * 2 + fr * sin(i));
+        glVertex2f(fx - fr * 2 + fr * cos(i), fy + catJumpHeight+ fr * 2 + fr * sin(i));
     }
     glEnd();
 
@@ -346,7 +347,7 @@ float exitxL = -0.5;  // Example value for exitxL
     glColor3f(0, 0, 0);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx - fr * cos(i), fy + fr * sin(i));
+        glVertex2f(fx - fr * cos(i), fy + catJumpHeight+ fr * sin(i));
     }
     glEnd();
 
@@ -358,26 +359,26 @@ float exitxL = -0.5;  // Example value for exitxL
 
     glLineWidth(2);
     glBegin(GL_LINE_STRIP);
-    glVertex2f(fx - fr * mw, fy + fr * mh);
-    glVertex2f(fx - fr * mw, fy);
-    glVertex2f(fx, fy);
-    glVertex2f(fx, fy + fr * mh);
-    glVertex2f(fx, fy);
-    glVertex2f(fx + fr * mw, fy);
-    glVertex2f(fx + fr * mw, fy + fr * mh);
+    glVertex2f(fx - fr * mw, fy + catJumpHeight+ fr * mh);
+    glVertex2f(fx - fr * mw, fy+ catJumpHeight);
+    glVertex2f(fx, fy+ catJumpHeight);
+    glVertex2f(fx, fy + catJumpHeight+ fr * mh);
+    glVertex2f(fx, fy+ catJumpHeight);
+    glVertex2f(fx + fr * mw, fy+ catJumpHeight);
+    glVertex2f(fx + fr * mw, fy+ catJumpHeight + fr * mh);
     glEnd();
 
     fr *= 1.4;
     glColor3f(1, 0.6, 0.6);
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx + mw * 1.2 * fr - fr * cos(i), fy + fr * sin(i) + fr * mh);
+        glVertex2f(fx + mw * 1.2 * fr - fr * cos(i), fy + catJumpHeight+ fr * sin(i) + fr * mh);
     }
     glEnd();
 
     glBegin(GL_TRIANGLE_FAN);
     for (int i = 0; i <= 200; i += 6) {
-        glVertex2f(fx - mw * 1.2 * fr - fr * cos(i), fy + fr * sin(i) + fr * mh);
+        glVertex2f(fx - mw * 1.2 * fr - fr * cos(i), fy+ catJumpHeight + fr * sin(i) + fr * mh);
     }
     glEnd();
 
@@ -445,7 +446,7 @@ void specialKeyPressed(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
             // Jump the cat by adjusting the catJumpHeight
-            catJumpHeight = 0.5f;
+            catJumpHeight = 0.27f;
             break;
         // Add more cases for other arrow keys if needed
     }
