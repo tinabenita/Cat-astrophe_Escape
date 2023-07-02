@@ -396,13 +396,13 @@ void display() {
     
     // Check for collision between cat and wheel
     int collisionDetected = 0;
-    if (fabs(wheelPosition - bx) < threshold && !collisionDetected) {
-        collisionDetected = true;
-        wheelSpeed = 0.0f; // Stop the wheel movement
-        dashSpeed = 0.0f; // Stop the moving dashes
-        hydrantSpeed = 0.0f; // Stop the fire hydrant movement
-        wheelRotationSpeed = 0.0f; // Stop the wheel rotation
-    }
+	if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) {
+	    collisionDetected = true;
+	    wheelSpeed = 0.0f; // Stop the wheel movement
+	    dashSpeed = 0.0f; // Stop the moving dashes
+	    hydrantSpeed = 0.0f; // Stop the fire hydrant movement
+	    wheelRotationSpeed = 0.0f; // Stop the wheel rotation
+	}
 
     // ... (Previous code remains the same)
 
