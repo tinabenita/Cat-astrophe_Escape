@@ -7,7 +7,7 @@
 
 // Global variables
 float wheelPosition = 1.0f; // Current position of the wheel on the road
-float wheelSpeed = -0.015f; // Speed of the wheel movement
+float wheelSpeed = -0.005f; // Speed of the wheel movement
 float roadPosition = 0.0f; // Current position of dashes on the road
 float dashSpeed = 0.01f; // Speed of the moving dashes
 float wheelRotation = 0.0f; // Current rotation angle of the wheel
@@ -24,7 +24,10 @@ double threshold = 0.1; // Adjust the value according to your needs
 int timeSinceHydrant = 0;
 
 
-
+void makeHydrantReappear(int value) {
+    hydrantActive = true; // Make the fire hydrant reappear
+    // You can add additional logic here to control the position of the fire hydrant when it reappears.
+} 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
@@ -396,16 +399,26 @@ void display() {
     
     // Check for collision between cat and wheel
     int collisionDetected = 0;
-	if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) {
+	if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) 				 
+	{
 	    collisionDetected = true;
 	    wheelSpeed = 0.0f; // Stop the wheel movement
 	    dashSpeed = 0.0f; // Stop the moving dashes
 	    hydrantSpeed = 0.0f; // Stop the fire hydrant movement
 	    wheelRotationSpeed = 0.0f; // Stop the wheel rotation
 	}
+	
+    //Check for collision between cat and fire hydrant
+    //collisionDetected = 0;
+    if (fabs(hydrantPosition - bx-0.1) < threshold && catJumpHeight != 0.6f) 				 
+	{
+	    collisionDetected = true;
+	    hydrantActive = false; // Make the fire hydrant disappear
+            score += 5; // Add 5 points to the score
+            int reappearDelay = 2000;
+            glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
 
-    // ... (Previous code remains the same)
-
+	}
     // If the wheel is not active (i.e., cat touched the wheel), do not update positions
     if (wheelActive) {
         // Update wheel position and rotation
@@ -489,55 +502,12 @@ void specialKeyReleased(int key, int x, int y) {
     }
 }
 
-void makeHydrantReappear(int value) {
-    hydrantActive = true; // Make the fire hydrant reappear
-    // You can add additional logic here to control the position of the fire hydrant when it reappears.
-} 
-
-
-void catTouchesFireHydrant() {
-
-
-
-    // Check if the distance between the cat and the fire hydrant is less than a threshold value (you need to define this value).
-    
-    // You can calculate the distance between two points using the distance formula: sqrt((x2 - x1)^2 + (y2 - y1)^2).
-    // Check if cat parts are touching the fire hydrant
-	
-	/*
-	if (hydrantActive &&
-	    ((bx >= hydrantPosition - 0.03f && bx <= hydrantPosition + 0.03f) ||
-	     (bx + bw >= hydrantPosition - 0.03f && bx + bw <= hydrantPosition + 0.03f))) {
-	    if (by - 0.75 + catJumpHeight <= 0.2f ||
-		((by - bh / 4 - round) - 0.75 + catJumpHeight <= 0.2f && by - bh / 4 - round <= 0.55f)) {
-		//score += 5;
-		hydrantActive = false;
-	    }
-	}
-*/
-        // Update the time since the last fire hydrant appeared
-    timeSinceHydrant += elapsedTime;
-
-    // If the cat touches the fire hydrant, perform the following actions:
-    if (fabs(wheelPosition - hydrantPosition) < threshold) { // Replace 'threshold' with your chosen value.
-        hydrantActive = false; // Make the fire hydrant disappear
-        score += 5; // Add 5 points to the score
-        // Add a delay here if you want the fire hydrant to reappear after a certain time.
-        // You can use the 'glutTimerFunc' function to achieve this.
-
-        // Example: If you want the fire hydrant to reappear after 2000 milliseconds (2 seconds)
-        
-        int reappearDelay = 2000;
-        glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
-    }
-}
-
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(800, 600);
-    glutCreateWindow("Obstacle Animation");
+    glutCreateWindow("Cat-astrophe Escape");
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glMatrixMode(GL_PROJECTION);
