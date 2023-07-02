@@ -1,6 +1,9 @@
 #include <GL/glut.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
+
 
 // Global variables
 float wheelPosition = 1.0f; // Current position of the wheel on the road
@@ -15,10 +18,16 @@ bool wheelActive = true; // Flag indicating if the wheel is active
 bool hydrantActive = false; // Flag indicating if the fire hydrant is active
 int elapsedTime = 0; // Elapsed time in milliseconds
 float catJumpHeight = 0.0f;
+int score = 0; 
+char scoreString[100]; // Adjust the size according to your needs
+double threshold = 0.1; // Adjust the value according to your needs
+int timeSinceHydrant = 0;
 
 
 
 
+    
+    
 
 
 void display() {
@@ -26,6 +35,23 @@ void display() {
     glLoadIdentity();
     
     
+
+
+float exitxL = -0.5;  // Example value for exitxL
+    float exityL = 0.5;   // Example value for exityL
+    float exityU = -0.5;  // Example value for exityU
+    
+    float bx = (exitxL * 0.5)-0.35;  // Half the length along the x-axis
+    float by = exityL+0.09;
+    float w = 0.014;
+    float step = (exityL - exityU) / 5.0;
+    float bh = step * 5.0;
+    float bw = bh * 0.80952 * 0.5;  // Half the length along the x-axis
+    float round = 0.024;
+
+    float th = 0.05;
+    float ts = 0.01;
+    float ty = by - bh * 0.8;
     
     // Background
     glColor3f(0.0, 0.0, 0.0);
@@ -36,7 +62,15 @@ void display() {
     glVertex2f(1.0, -1.0);
     glEnd();
     
-    
+// Check if cat parts are touching the wheel
+    if (wheelActive &&
+        (wheelPosition >= bx - bw && wheelPosition <= bx + bw) &&
+        (wheelRotation >= 270.0f && wheelRotation <= 360.0f)) {
+        printf("GAME OVER. PRESS ENTER TO PLAY AGAIN\n");
+        wheelActive = false;
+        hydrantActive = false;
+        return;
+    }
     
     
     // Set the color for the moving dashes on the road
@@ -54,6 +88,13 @@ void display() {
     
     
     
+    
+    
+    
+
+
+
+
   
         // Set the color for the wheel
     glPushMatrix();
@@ -104,6 +145,9 @@ void display() {
 
 
 // Set the color for the fire hydrant
+
+
+
 if (hydrantActive) {
     glPushMatrix();
     glTranslatef(hydrantPosition, -0.42f, 0.0f);  // Adjust the y-coordinate for the fire hydrant
@@ -150,29 +194,17 @@ if (hydrantActive) {
 
     glPopMatrix();
 }
+if (hydrantActive) {
+        score += 5;
+    }
 
 
 
 
-
-
-
-float exitxL = -0.5;  // Example value for exitxL
-    float exityL = 0.5;   // Example value for exityL
-    float exityU = -0.5;  // Example value for exityU
     
-    float bx = (exitxL * 0.5)-0.35;  // Half the length along the x-axis
-    float by = exityL+0.09;
-    float w = 0.014;
-    float step = (exityL - exityU) / 5.0;
-    float bh = step * 5.0;
-    float bw = bh * 0.80952 * 0.5;  // Half the length along the x-axis
-    float round = 0.024;
 
-    float th = 0.05;
-    float ts = 0.01;
-    float ty = by - bh * 0.8;
 
+    
     //Tail
     glColor3f(0.6, 0.6, 0.6);
     glBegin(GL_QUAD_STRIP);
@@ -383,18 +415,72 @@ float exitxL = -0.5;  // Example value for exitxL
     glEnd();
 
 
+	
+
+// Draw the scoreboard
+   // Display the score using OpenGL functions
+    // You can choose the position and other properties of the text based on your preferences.
+    // Example code to display the score at the top-left corner of the window:
+    char scoreString[100]; // Adjust the size according to your needs
+
+    snprintf(scoreString, sizeof(scoreString), "Score: %d", score);
+    glColor3f(1.0f, 1.0f, 1.0f); // Set text color to white
+    glRasterPos2f(-0.65f, 0.65f); // Position the text at the top-left corner
+    int len = strlen(scoreString);
+    for (int i = 0; i < len; i++) {
+        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, scoreString[i]);
+    }
+        
+
+if (wheelActive &&
+        (wheelPosition >= bx - bw && wheelPosition <= bx + bw) &&
+        (wheelRotation >= 270.0f && wheelRotation <= 360.0f)) {
+        printf("GAME OVER. PRESS ENTER TO PLAY AGAIN\n");
+        wheelActive = false;
+        hydrantActive = false;
+        return;
+    }
+
+    // Check if cat parts are touching the fire hydrant
+    if (hydrantActive &&
+        ((bx >= hydrantPosition - 0.03f && bx <= hydrantPosition + 0.03f) ||
+         (bx + bw >= hydrantPosition - 0.03f && bx + bw <= hydrantPosition + 0.03f))) {
+        if (by - 0.75 + catJumpHeight <= 0.2f ||
+            (by - bh / 4 - round) - 0.75 + catJumpHeight <= 0.2f) {
+            score += 5;
+            hydrantActive = false;
+        }
+    }
+
+    // Draw the fire hydrant if it's active
+    if (hydrantActive) {
+        glPushMatrix();
+        glTranslatef(hydrantPosition, -0.42f, 0.0f);
+
+        // Draw the fire hydrant
+        // ...
+
+        glPopMatrix();
+    }
+
+    // ...
+
+    // Update the time since the last fire hydrant appeared
+    timeSinceHydrant += elapsedTime;
+
+    // Generate a new fire hydrant after a certain time interval
+    if (!hydrantActive && timeSinceHydrant >= 3000) {
+        hydrantActive = true;
+        hydrantPosition = 1.0f;
+        timeSinceHydrant = 0;
+    }
 
     glFlush();
     glutSwapBuffers();
 }
 
 
-    
-    
-    
-    
-
-    
+   
 
 void update(int value) {
     // Update the position of the wheel
@@ -446,7 +532,7 @@ void specialKeyPressed(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
             // Jump the cat by adjusting the catJumpHeight
-            catJumpHeight = 0.27f;
+            catJumpHeight = 0.4f;
             break;
         // Add more cases for other arrow keys if needed
     }
@@ -461,6 +547,37 @@ void specialKeyReleased(int key, int x, int y) {
         // Add more cases for other arrow keys if needed
     }
 }
+
+void makeHydrantReappear(int value) {
+    hydrantActive = true; // Make the fire hydrant reappear
+    // You can add additional logic here to control the position of the fire hydrant when it reappears.
+} 
+
+
+void catTouchesFireHydrant() {
+
+
+
+    // Check if the distance between the cat and the fire hydrant is less than a threshold value (you need to define this value).
+    // You can calculate the distance between two points using the distance formula: sqrt((x2 - x1)^2 + (y2 - y1)^2).
+    // If the cat touches the fire hydrant, perform the following actions:
+    if (fabs(wheelPosition - hydrantPosition) < threshold) { // Replace 'threshold' with your chosen value.
+        hydrantActive = false; // Make the fire hydrant disappear
+        score += 5; // Add 5 points to the score
+        // Add a delay here if you want the fire hydrant to reappear after a certain time.
+        // You can use the 'glutTimerFunc' function to achieve this.
+
+        // Example: If you want the fire hydrant to reappear after 2000 milliseconds (2 seconds)
+        
+        int reappearDelay = 2000;
+        glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
+    }
+}
+
+
+
+
+
 
 
 int main(int argc, char** argv) {
