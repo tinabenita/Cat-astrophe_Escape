@@ -532,7 +532,7 @@ void specialKeyPressed(int key, int x, int y) {
     switch (key) {
         case GLUT_KEY_UP:
             // Jump the cat by adjusting the catJumpHeight
-            catJumpHeight = 0.4f;
+            catJumpHeight = 0.6f;
             break;
         // Add more cases for other arrow keys if needed
     }
