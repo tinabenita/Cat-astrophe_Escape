@@ -22,6 +22,8 @@ int score = 0;
 char scoreString[100]; // Adjust the size according to your needs
 double threshold = 0.1; // Adjust the value according to your needs
 int timeSinceHydrant = 0;
+int windowWidth = 800;
+int windowHeight = 600;
 
 
 void makeHydrantReappear(int value) {
@@ -406,20 +408,34 @@ void display() {
 	    dashSpeed = 0.0f; // Stop the moving dashes
 	    hydrantSpeed = 0.0f; // Stop the fire hydrant movement
 	    wheelRotationSpeed = 0.0f; // Stop the wheel rotation
+	    
+		    // Display "GAME OVER! PRESS -> TO PLAY AGAIN" message
+		glMatrixMode(GL_PROJECTION);
+		glPushMatrix();
+		glLoadIdentity();
+		gluOrtho2D(0, windowWidth, 0, windowHeight);
+		glMatrixMode(GL_MODELVIEW);
+		glPushMatrix();
+		glLoadIdentity();
+
+		glColor3f(1.0f, 0.0f, 0.0f); // Set text color to white
+		glRasterPos2f(windowWidth / 2 - 150, windowHeight - 50); // Position the text at the top center of the window
+
+		char* gameOverMessage = "GAME OVER! \nPress -> to play again";
+		int len = strlen(gameOverMessage);
+		for (int i = 0; i < len; i++) {
+		    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gameOverMessage[i]);
+		}
+
+		glPopMatrix();
+		glMatrixMode(GL_PROJECTION);
+		glPopMatrix();
+		glMatrixMode(GL_MODELVIEW);
 	}
 	
     //Check for collision between cat and fire hydrant
-    //collisionDetected = 0;
-    /*if ((hydrantPosition - bx) < threshold && catJumpHeight != 0.6f) 				 
-	{
-	    collisionDetected = true;
-	    hydrantActive = false; // Make the fire hydrant disappear
-            score += 5; // Add 5 points to the score
-            int reappearDelay = 500;
-            glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
-
-	}*/
-	if (((hydrantPosition - fx) < 0.0 || (hydrantPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 				 
+   
+    	if (((hydrantPosition - fx) < 0.0 || (hydrantPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 				 
 	{
 	    collisionDetected = true;
 	    hydrantActive = false; // Make the fire hydrant disappear
