@@ -51,14 +51,28 @@ void display() {
     float ts = 0.01;
     float ty = by - bh * 0.8;
     
-    // Background
-    glColor3f(0.0, 0.0, 0.0);
-    glBegin(GL_QUADS);
-    glVertex2f(-1.0, -1.0);
-    glVertex2f(-1.0, 1.0);
-    glVertex2f(1.0, 1.0);
-    glVertex2f(1.0, -1.0);
-    glEnd();
+   
+	    // Background
+	glBegin(GL_QUADS);
+
+	// Bottom-left corner (purple)
+	glColor3f(0.2, 0.0, 0.2);
+	glVertex2f(-1.0, -1.0);
+
+	// Top-left corner (purple)
+	glColor3f(0.2, 0.0, 0.2);
+	glVertex2f(-1.0, 1.0);
+
+	// Top-right corner (black)
+	glColor3f(0.0, 0.0, 0.0);
+	glVertex2f(1.0, 1.0);
+
+	// Bottom-right corner (black)
+	glColor3f(0.0, 0.0, 0.0);
+	glVertex2f(1.0, -1.0);
+
+	glEnd();
+
     
     // Set the color for the moving dashes on the road
     glColor3f(1.0f, 1.0f, 1.0f);
@@ -153,14 +167,14 @@ void display() {
 	    glVertex2f(0.02f, 0.2f);
 	    glEnd();
 
-	    // Draw the base of the fire hydrant
-	    glColor3f(0.0f, 0.0f, 0.0f);
+	    /* // Draw the base of the fire hydrant
+	    glColor3f(0.0f, 0.0f, 1.0f);
 	    glBegin(GL_QUADS);
 	    glVertex2f(-0.05f, 0.0f);
 	    glVertex2f(-0.05f, -0.1f);
 	    glVertex2f(0.05f, -0.1f);
 	    glVertex2f(0.05f, 0.0f);
-	    glEnd();
+	    glEnd(); */
 
 	    glPopMatrix();
 	}
