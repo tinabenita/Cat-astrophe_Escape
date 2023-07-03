@@ -27,35 +27,6 @@ int windowHeight = 600;
 bool isGameOver = false;
 
 
-// Function to reset the game variables and state
-void restartGame() {
-	wheelPosition = 1.0f; // Current position of the wheel on the road
-	 wheelSpeed = -0.0075f; // Speed of the wheel movement
-	 roadPosition = 0.0f; // Current position of dashes on the road
-	 dashSpeed = 0.01f; // Speed of the moving dashes
-	 wheelRotation = 0.0f; // Current rotation angle of the wheel
-	 wheelRotationSpeed = -1.0f; // Speed of the wheel rotation
-	 hydrantPosition = 1.0f; // Current position of the fire hydrant
-	 hydrantSpeed = -0.01f; // Speed of the fire hydrant movement
-	 wheelActive = true; // Flag indicating if the wheel is active
-	 hydrantActive = false; // Flag indicating if the fire hydrant is active
-	 elapsedTime = 0; // Elapsed time in milliseconds
-	 catJumpHeight = 0.0f;
-	 score = 0; 
-	 scoreString[100]; // Adjust the size according to your needs
-	 threshold = 0.1; // Adjust the value according to your needs
-	 timeSinceHydrant = 0;
-	 windowWidth = 800;
-	 windowHeight = 600;
-	 isGameOver = false;
-}
-// Special keyboard callback function to handle special keys (arrow keys)
-void specialKeys(int key, int x, int y) {
-    if (key == GLUT_KEY_RIGHT && isGameOver) {
-        restartGame();
-    }
-}
-
 void makeHydrantReappear(int value) {
     hydrantActive = true; // Make the fire hydrant reappear
     // You can add additional logic here to control the position of the fire hydrant when it reappears.
@@ -535,7 +506,28 @@ void update(int value) {
     glutTimerFunc(16, update, 0);
 }
 
-
+// Function to reset the game variables and state
+void restartGame() {
+	wheelPosition = 1.0f; // Current position of the wheel on the road
+	 wheelSpeed = -0.0075f; // Speed of the wheel movement
+	 roadPosition = 0.0f; // Current position of dashes on the road
+	 dashSpeed = 0.01f; // Speed of the moving dashes
+	 wheelRotation = 0.0f; // Current rotation angle of the wheel
+	 wheelRotationSpeed = -1.0f; // Speed of the wheel rotation
+	 hydrantPosition = 1.0f; // Current position of the fire hydrant
+	 hydrantSpeed = -0.01f; // Speed of the fire hydrant movement
+	 wheelActive = true; // Flag indicating if the wheel is active
+	 hydrantActive = false; // Flag indicating if the fire hydrant is active
+	 elapsedTime = 0; // Elapsed time in milliseconds
+	 //catJumpHeight = 0.0f;
+	 score = 0; 
+	 scoreString[100]; // Adjust the size according to your needs
+	 threshold = 0.1; // Adjust the value according to your needs
+	 timeSinceHydrant = 0;
+	 windowWidth = 800;
+	 windowHeight = 600;
+	 isGameOver = false;
+}
 
 void specialKeyPressed(int key, int x, int y) {
     switch (key) {
@@ -543,6 +535,8 @@ void specialKeyPressed(int key, int x, int y) {
             // Jump the cat by adjusting the catJumpHeight
             catJumpHeight = 0.6f;
             break;
+        case GLUT_KEY_RIGHT:
+        	restartGame();
         // Add more cases for other arrow keys if needed
         	
     }
@@ -554,11 +548,10 @@ void specialKeyReleased(int key, int x, int y) {
             // Reset the catJumpHeight when the up arrow key is released
             catJumpHeight = 0.0f;
             break;
+        
         // Add more cases for other arrow keys if needed
     }
 }
-
-
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -573,7 +566,7 @@ int main(int argc, char** argv) {
 	// Register the keyboard callback functions
     glutSpecialFunc(specialKeyPressed);
     glutSpecialUpFunc(specialKeyReleased);
-    glutSpecialFunc(specialKeys);
+    
 
     glutDisplayFunc(display);
     glutTimerFunc(0, update, 0);
