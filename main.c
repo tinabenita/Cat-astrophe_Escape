@@ -99,8 +99,8 @@ void display() {
     float spokeWidth = 0.01f;
     float spokeAngle = 360.0f / numSpokes;
 
-    // Draw the outer rubber part of the wheel
-    glColor3f(1.0f, 0.0f, 0.0f);
+    // Draw the body the wheel
+    glColor3f(0.75f, 0.0f, 0.0f);
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(0.0f, 0.0f);
     for (float angle = 0.0f; angle <= 360.0f; angle += 10.0f) {
@@ -112,7 +112,7 @@ void display() {
     glEnd();
 
     // Draw the spokes
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(1.0f, 1.0f, 0.0f);
     glLineWidth(2.0f);
     glBegin(GL_LINES);
     for (int i = 0; i < numSpokes; i++) {
@@ -157,7 +157,6 @@ void display() {
 		glVertex2f(x, y);
 	    }
 	    glEnd();
-
 	    // Draw the nozzle of the fire hydrant
 	    glColor3f(0.0f, 0.0f, 1.0f);
 	    glBegin(GL_QUADS);
@@ -167,6 +166,7 @@ void display() {
 	    glVertex2f(0.02f, 0.2f);
 	    glEnd();
 
+	    
 	    /* // Draw the base of the fire hydrant
 	    glColor3f(0.0f, 0.0f, 1.0f);
 	    glBegin(GL_QUADS);
