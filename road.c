@@ -7,7 +7,7 @@
 
 // Global variables
 float wheelPosition = 1.0f; // Current position of the wheel on the road
-float wheelSpeed = -0.005f; // Speed of the wheel movement
+float wheelSpeed = -0.0075f; // Speed of the wheel movement
 float roadPosition = 0.0f; // Current position of dashes on the road
 float dashSpeed = 0.01f; // Speed of the moving dashes
 float wheelRotation = 0.0f; // Current rotation angle of the wheel
@@ -410,12 +410,21 @@ void display() {
 	
     //Check for collision between cat and fire hydrant
     //collisionDetected = 0;
-    if (fabs(hydrantPosition - bx-0.1) < threshold && catJumpHeight != 0.6f) 				 
+    /*if ((hydrantPosition - bx) < threshold && catJumpHeight != 0.6f) 				 
 	{
 	    collisionDetected = true;
 	    hydrantActive = false; // Make the fire hydrant disappear
             score += 5; // Add 5 points to the score
-            int reappearDelay = 2000;
+            int reappearDelay = 500;
+            glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
+
+	}*/
+	if (((hydrantPosition - fx) < 0.0 || (hydrantPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 				 
+	{
+	    collisionDetected = true;
+	    hydrantActive = false; // Make the fire hydrant disappear
+            score += 5; // Add 5 points to the score
+            int reappearDelay = 500;
             glutTimerFunc(reappearDelay, makeHydrantReappear, 0);
 
 	}
