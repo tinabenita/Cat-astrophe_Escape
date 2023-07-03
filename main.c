@@ -416,8 +416,8 @@ void display() {
     
     // Check for collision between cat and wheel
     int collisionDetected = 0;
-	//if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) 				 
-	if (((wheelPosition - fx) < 0.0 || (wheelPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 
+	if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) 				 
+	//if (((wheelPosition - fx) < 0.0 || (wheelPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 
 	{
 	    collisionDetected = true;
 	    isGameOver=true;
