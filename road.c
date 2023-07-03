@@ -24,7 +24,37 @@ double threshold = 0.1; // Adjust the value according to your needs
 int timeSinceHydrant = 0;
 int windowWidth = 800;
 int windowHeight = 600;
+bool isGameOver = false;
 
+
+// Function to reset the game variables and state
+void restartGame() {
+	wheelPosition = 1.0f; // Current position of the wheel on the road
+	 wheelSpeed = -0.0075f; // Speed of the wheel movement
+	 roadPosition = 0.0f; // Current position of dashes on the road
+	 dashSpeed = 0.01f; // Speed of the moving dashes
+	 wheelRotation = 0.0f; // Current rotation angle of the wheel
+	 wheelRotationSpeed = -1.0f; // Speed of the wheel rotation
+	 hydrantPosition = 1.0f; // Current position of the fire hydrant
+	 hydrantSpeed = -0.01f; // Speed of the fire hydrant movement
+	 wheelActive = true; // Flag indicating if the wheel is active
+	 hydrantActive = false; // Flag indicating if the fire hydrant is active
+	 elapsedTime = 0; // Elapsed time in milliseconds
+	 catJumpHeight = 0.0f;
+	 score = 0; 
+	 scoreString[100]; // Adjust the size according to your needs
+	 threshold = 0.1; // Adjust the value according to your needs
+	 timeSinceHydrant = 0;
+	 windowWidth = 800;
+	 windowHeight = 600;
+	 isGameOver = false;
+}
+// Special keyboard callback function to handle special keys (arrow keys)
+void specialKeys(int key, int x, int y) {
+    if (key == GLUT_KEY_RIGHT && isGameOver) {
+        restartGame();
+    }
+}
 
 void makeHydrantReappear(int value) {
     hydrantActive = true; // Make the fire hydrant reappear
@@ -404,6 +434,7 @@ void display() {
 	if (fabs(wheelPosition - bx) < threshold && !collisionDetected && catJumpHeight != 0.6f) 				 
 	{
 	    collisionDetected = true;
+	    isGameOver=true;
 	    wheelSpeed = 0.0f; // Stop the wheel movement
 	    dashSpeed = 0.0f; // Stop the moving dashes
 	    hydrantSpeed = 0.0f; // Stop the fire hydrant movement
@@ -421,7 +452,7 @@ void display() {
 		glColor3f(1.0f, 0.0f, 0.0f); // Set text color to white
 		glRasterPos2f(windowWidth / 2 - 150, windowHeight - 50); // Position the text at the top center of the window
 
-		char* gameOverMessage = "GAME OVER! \nPress -> to play again";
+		char* gameOverMessage = "GAME OVER! Press -> to play again";
 		int len = strlen(gameOverMessage);
 		for (int i = 0; i < len; i++) {
 		    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, gameOverMessage[i]);
@@ -542,10 +573,11 @@ int main(int argc, char** argv) {
 	// Register the keyboard callback functions
     glutSpecialFunc(specialKeyPressed);
     glutSpecialUpFunc(specialKeyReleased);
-    
+    glutSpecialFunc(specialKeys);
 
     glutDisplayFunc(display);
     glutTimerFunc(0, update, 0);
+    
     glutMainLoop();
     return 0;
 }
