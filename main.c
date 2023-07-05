@@ -31,13 +31,15 @@ bool isGameOver = false;
 
 // RGB values for VIBGYOR colors
 float colors[][3] = {
-    {1.0, 1.0, 0.0},    // Yellow
+   
+    {0.0, 0.0, 1.0},    // indigo 
     {0.0, 1.0, 0.0},    // Green
-    {1.0, 0.5, 0.0},    // Orange
-    {0.0, 0.0, 1.0},    // Blue 
-    {1.0, 0.7, 0.7},    // pink
+    {1.0,1.0, 0.0},    // Yellow
+    {0.0, 1.0, 1.0},    // blue
+    {0.6, 0.55, 0.0},    // Orange
     {1.0, 0.0, 1.0},     // Violet
-    {1.0, 0.0, 0.0},    // Red
+    {1.0, 0.0, 0.0},   // Red 
+    
 
 };
 int colorIndex = 0;     // Current color index
@@ -150,7 +152,7 @@ void display() {
         glVertex2f(x + 0.1f, -0.42f);
     }
     glEnd();*/
-    
+    glColor3f(colors[colorIndex][0], colors[colorIndex][1], colors[colorIndex][2]);
     glBegin(GL_QUADS);
         glVertex2f(-1.0, -0.42f);
         glVertex2f(1.0, -0.42f);
@@ -158,7 +160,22 @@ void display() {
         glVertex2f(-1.0, -0.44f);
     glEnd();
     
+    glColor3f(colors[colorIndex][1], colors[colorIndex][2], colors[colorIndex][0]);
+    glBegin(GL_QUADS);
+        glVertex2f(-1.0, -0.46f);
+        glVertex2f(1.0, -0.46f);
+        glVertex2f(1.0, -0.48f);
+        glVertex2f(-1.0, -0.48f);
+    glEnd();
     
+    glColor3f(colors[colorIndex][2], colors[colorIndex][0], colors[colorIndex][1]);
+    glBegin(GL_QUADS);
+        glVertex2f(-1.0, -0.50f);
+        glVertex2f(1.0, -0.50f);
+        glVertex2f(1.0, -0.52f);
+        glVertex2f(-1.0, -0.52f);
+    glEnd();
+  
     
         // Set the color for the wheel
     glPushMatrix();
@@ -209,7 +226,7 @@ void display() {
 	    glTranslatef(hydrantPosition, -0.42f, 0.0f);  // Adjust the y-coordinate for the fire hydrant
 
 	    // Draw the fire hydrant
-	    glColor3f(0.0f, 1.0f, 1.0f);
+	    glColor3f(0.0f, 0.75f, 0.75f);
 
 	    // Draw the main body of the fire hydrant
 	    glBegin(GL_QUADS);
@@ -472,7 +489,7 @@ void display() {
 
     snprintf(scoreString, sizeof(scoreString), "Score: %d", score);
     glColor3f(1.0f, 1.0f, 1.0f); // Set text color to white
-    glRasterPos2f(-0.65f, 0.65f); // Position the text at the top-left corner
+    glRasterPos2f(-0.8f, 0.5f); // Position the text at the top-left corner
     int len = strlen(scoreString);
     for (int i = 0; i < len; i++) {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, scoreString[i]);
@@ -607,11 +624,7 @@ void update(int value) {
 }
 
 
-void updateColor(int val){
-	colorIndex = (colorIndex + 1) % 7;    // Increment color index	
-	glutPostRedisplay();
-    glutTimerFunc(25, updateColor, 0);	
-}
+
 
 
 // Function to reset the game variables and state
@@ -681,6 +694,12 @@ void reshape(int width, int height) {
     glLoadIdentity();
 }
 
+void updateColor(int val){
+	colorIndex = (colorIndex + 1) % 7;    // Increment color index	
+	glutPostRedisplay();
+    glutTimerFunc(75, updateColor, 0);	
+}
+
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -703,7 +722,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
     glutTimerFunc(0, update, 0);
-    glutTimerFunc(25, updateColor, 0);
+    glutTimerFunc(75, updateColor, 0);
     glutMainLoop();
     return 0;
 }
