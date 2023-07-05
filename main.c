@@ -141,14 +141,23 @@ void display() {
     // Set the color for the moving dashes on the road
     glColor3f(colors[colorIndex][0], colors[colorIndex][1], colors[colorIndex][2]);
 	// Draw the moving dashes on the road
-    glBegin(GL_QUADS);
+    
+    /*glBegin(GL_QUADS);
     for (float x = -0.8f + roadPosition; x < 0.8f; x += 0.2f) {
         glVertex2f(x, -0.42f);
         glVertex2f(x, -0.44f);
         glVertex2f(x + 0.1f, -0.44f);
         glVertex2f(x + 0.1f, -0.42f);
     }
+    glEnd();*/
+    
+    glBegin(GL_QUADS);
+        glVertex2f(-1.0, -0.42f);
+        glVertex2f(1.0, -0.42f);
+        glVertex2f(1.0, -0.44f);
+        glVertex2f(-1.0, -0.44f);
     glEnd();
+    
     
     
         // Set the color for the wheel
