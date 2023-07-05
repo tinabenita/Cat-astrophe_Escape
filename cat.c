@@ -234,7 +234,7 @@ int main(int argc, char **argv) {
     // Initialize GLUT and create a window
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(800, 600);
+    glutInitWindowSize(1200, 1000);
     glutCreateWindow("Cat-astrophe Escape");
 
     // Set the display function
