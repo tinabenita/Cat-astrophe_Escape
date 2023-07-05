@@ -31,13 +31,14 @@ bool isGameOver = false;
 
 // RGB values for VIBGYOR colors
 float colors[][3] = {
-    {1.0, 0.0, 0.0},    // Red
-    {1.0, 0.5, 0.0},    // Orange
     {1.0, 1.0, 0.0},    // Yellow
     {0.0, 1.0, 0.0},    // Green
-    {0.0, 0.0, 1.0},    // Blue
-    {0.5, 0.0, 0.5},    // Indigo
-    {1.0, 0.0, 1.0}     // Violet
+    {1.0, 0.5, 0.0},    // Orange
+    {0.0, 0.0, 1.0},    // Blue 
+    {1.0, 0.7, 0.7},    // pink
+    {1.0, 0.0, 1.0},     // Violet
+    {1.0, 0.0, 0.0},    // Red
+
 };
 int colorIndex = 0;     // Current color index
 
@@ -600,7 +601,7 @@ void update(int value) {
 void updateColor(int val){
 	colorIndex = (colorIndex + 1) % 7;    // Increment color index	
 	glutPostRedisplay();
-    glutTimerFunc(400, updateColor, 0);	
+    glutTimerFunc(25, updateColor, 0);	
 }
 
 
@@ -693,7 +694,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
     glutTimerFunc(0, update, 0);
-    glutTimerFunc(400, updateColor, 0);
+    glutTimerFunc(25, updateColor, 0);
     glutMainLoop();
     return 0;
 }
