@@ -60,8 +60,8 @@ void initStars() {
     int i;
     for (i = 0; i < NUM_STARS; i++) {
         stars[i].x = ((float)rand() / RAND_MAX) * 2.0 - 1.0; // Random x position between -1.0 and 1.0
-        stars[i].y = ((float)rand() / RAND_MAX) * 0.55 + 0.45; // Random y position between 0.45 and 1.0
-        stars[i].size = ((float)rand() / RAND_MAX) * 4.0 + 1.0; // Random size between 1.0 and 5.0
+        stars[i].y = ((float)rand() / RAND_MAX) * 0.55 + 0.4; // Random y position between 0.45 and 1.0
+        stars[i].size = ((float)rand() / RAND_MAX) * 10.0 + 10.0; // Random size between 1.0 and 5.0
         stars[i].alpha = ((float)rand() / RAND_MAX) * 0.5 + 0.5; // Random alpha between 0.5 and 1.0
         stars[i].speed = ((float)rand() / RAND_MAX) * 0.01 + 0.005; // Random speed between 0.005 and 0.015
     }
@@ -489,7 +489,7 @@ void display() {
 
     snprintf(scoreString, sizeof(scoreString), "Score: %d", score);
     glColor3f(1.0f, 1.0f, 1.0f); // Set text color to white
-    glRasterPos2f(-0.8f, 0.5f); // Position the text at the top-left corner
+    glRasterPos2f(-0.85f, 0.75f); // Position the text at the top-left corner
     int len = strlen(scoreString);
     for (int i = 0; i < len; i++) {
         glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, scoreString[i]);
@@ -697,7 +697,7 @@ void reshape(int width, int height) {
 void updateColor(int val){
 	colorIndex = (colorIndex + 1) % 7;    // Increment color index	
 	glutPostRedisplay();
-    glutTimerFunc(75, updateColor, 0);	
+    glutTimerFunc(95, updateColor, 0);	
 }
 
 int main(int argc, char** argv) {
@@ -722,7 +722,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
     glutTimerFunc(0, update, 0);
-    glutTimerFunc(75, updateColor, 0);
+    glutTimerFunc(95, updateColor, 0);
     glutMainLoop();
     return 0;
 }
