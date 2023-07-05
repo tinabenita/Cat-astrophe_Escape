@@ -8,7 +8,7 @@
 
 // Global variables
 float wheelPosition = 1.0f; // Current position of the wheel on the road
-float wheelSpeed = -0.0075f; // Speed of the wheel movement
+float wheelSpeed = -0.01f; // Speed of the wheel movement
 float roadPosition = 0.0f; // Current position of dashes on the road
 float dashSpeed = 0.01f; // Speed of the moving dashes
 float wheelRotation = 0.0f; // Current rotation angle of the wheel
@@ -28,6 +28,18 @@ int windowHeight = 600;
 bool isGameOver = false;
 // Number of stars
 #define NUM_STARS 100
+
+// RGB values for VIBGYOR colors
+float colors[][3] = {
+    {1.0, 0.0, 0.0},    // Red
+    {1.0, 0.5, 0.0},    // Orange
+    {1.0, 1.0, 0.0},    // Yellow
+    {0.0, 1.0, 0.0},    // Green
+    {0.0, 0.0, 1.0},    // Blue
+    {0.5, 0.0, 0.5},    // Indigo
+    {1.0, 0.0, 1.0}     // Violet
+};
+int colorIndex = 0;     // Current color index
 
 // Structure to hold star information
 typedef struct {
@@ -112,10 +124,22 @@ void display() {
 	glEnd();
 
     
-    // Set the color for the moving dashes on the road
+    /*// Set the color for the moving dashes on the road
     glColor3f(1.0f, 1.0f, 1.0f);
 
     // Draw the moving dashes on the road
+    glBegin(GL_QUADS);
+    for (float x = -0.8f + roadPosition; x < 0.8f; x += 0.2f) {
+        glVertex2f(x, -0.42f);
+        glVertex2f(x, -0.44f);
+        glVertex2f(x + 0.1f, -0.44f);
+        glVertex2f(x + 0.1f, -0.42f);
+    }
+    glEnd();*/
+    
+    // Set the color for the moving dashes on the road
+    glColor3f(colors[colorIndex][0], colors[colorIndex][1], colors[colorIndex][2]);
+	// Draw the moving dashes on the road
     glBegin(GL_QUADS);
     for (float x = -0.8f + roadPosition; x < 0.8f; x += 0.2f) {
         glVertex2f(x, -0.42f);
@@ -542,6 +566,7 @@ void update(int value) {
     if (wheelRotation > 360.0f)
         wheelRotation -= 360.0f;
 
+	
     // Update the position of the dashes
     roadPosition -= dashSpeed;
 
@@ -571,10 +596,18 @@ void update(int value) {
     glutTimerFunc(16, update, 0);
 }
 
+
+void updateColor(int val){
+	colorIndex = (colorIndex + 1) % 7;    // Increment color index	
+	glutPostRedisplay();
+    glutTimerFunc(400, updateColor, 0);	
+}
+
+
 // Function to reset the game variables and state
 void restartGame() {
-	wheelPosition = 1.0f; // Current position of the wheel on the road
-	 wheelSpeed = -0.0075f; // Speed of the wheel movement
+	 wheelPosition = 1.0f; // Current position of the wheel on the road
+	wheelSpeed = -0.01f; // Speed of the wheel movement
 	 roadPosition = 0.0f; // Current position of dashes on the road
 	 dashSpeed = 0.01f; // Speed of the moving dashes
 	 wheelRotation = 0.0f; // Current rotation angle of the wheel
@@ -584,7 +617,7 @@ void restartGame() {
 	 wheelActive = true; // Flag indicating if the wheel is active
 	 hydrantActive = false; // Flag indicating if the fire hydrant is active
 	 elapsedTime = 0; // Elapsed time in milliseconds
-	 //catJumpHeight = 0.0f;
+	 catJumpHeight = 0.0f;
 	 score = 0; 
 	 scoreString[100]; // Adjust the size according to your needs
 	 threshold = 0.1; // Adjust the value according to your needs
@@ -592,6 +625,7 @@ void restartGame() {
 	 windowWidth = 800;
 	 windowHeight = 600;
 	 isGameOver = false;
+	
 }
 
 void specialKeyPressed(int key, int x, int y) {
@@ -617,6 +651,8 @@ void specialKeyReleased(int key, int x, int y) {
         // Add more cases for other arrow keys if needed
     }
 }
+
+
 
 // Timer callback function
 void timer(int value) {
@@ -657,7 +693,7 @@ int main(int argc, char** argv) {
     glutReshapeFunc(reshape);
     glutTimerFunc(0, timer, 0);
     glutTimerFunc(0, update, 0);
-    
+    glutTimerFunc(400, updateColor, 0);
     glutMainLoop();
     return 0;
 }
