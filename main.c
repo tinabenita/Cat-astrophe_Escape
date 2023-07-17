@@ -81,7 +81,6 @@ void updateStars() {
 
 void makeHydrantReappear(int value) {
     hydrantActive = true; // Make the fire hydrant reappear
-    // You can add additional logic here to control the position of the fire hydrant when it reappears.
 } 
 
 void display() {
@@ -541,7 +540,7 @@ void display() {
 	
     //Check for collision between cat and fire hydrant
    
-    	if (((hydrantPosition - fx) < 0.0 || (hydrantPosition - bx) < 0.0 ) && catJumpHeight != 0.6f) 				 
+    	if (((hydrantPosition - fx) < -0.0 || (hydrantPosition - bx) < 0.0) && catJumpHeight != 0.6f) 				 
 	{
 	    collisionDetected = true;
 	    hydrantActive = false; // Make the fire hydrant disappear
@@ -714,7 +713,7 @@ int main(int argc, char** argv) {
 	// Register the keyboard callback functions
     glutSpecialFunc(specialKeyPressed);
     glutSpecialUpFunc(specialKeyReleased);
-    glPointSize(1.0);
+    glPointSize(2.0);
 
     initStars();
 
